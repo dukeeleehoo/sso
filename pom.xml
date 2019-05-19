@@ -41,7 +41,7 @@
             <version>1.0.0</version>
         </dependency>
 
-        <!--核心组件-->
+        <!--分支提交文件核心组件-->
         <dependency>
             <groupId>cn.stylefeng.roses</groupId>
             <artifactId>kernel-core</artifactId>
