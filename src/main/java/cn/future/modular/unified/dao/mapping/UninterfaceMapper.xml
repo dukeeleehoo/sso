@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.future.modular.unified.dao.UninterfaceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.future.modular.unified.model.Uninterface">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="url" property="url" />
+        <result column="type" property="type" />
+        <result column="requestparameter" property="requestparameter" />
+        <result column="returnparameter" property="returnparameter" />
+        <result column="briefing" property="briefing" />
+        <result column="status" property="status" />
+        <result column="createtime" property="createtime" />
+        <result column="creater" property="creater" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, url, type, requestparameter, returnparameter, status, createtime, creater,briefing
+    </sql>
+
+    <select id="selectUninterfaces" resultType="map">
+        select
+        <include refid="Base_Column_List" />
+        from unified_uninterface
+        where status != '3'
+    </select>
+
+    <select id="selectByUrl" resultType="cn.future.modular.unified.model.Uninterface">
+        select
+        <include refid="Base_Column_List" />
+        from unified_uninterface
+        where status != '3' AND url like CONCAT('%',#{url},'%')
+    </select>
+
+    <select id="selectByName" resultType="cn.future.modular.unified.model.Uninterface">
+        select
+        <include refid="Base_Column_List" />
+        from unified_uninterface
+        where status = '1' AND  name like CONCAT(#{name},'%')
+    </select>
+
+</mapper>

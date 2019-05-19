@@ -1,0 +1,127 @@
+server:
+  port: 80
+
+guns:
+  swagger-open: true              #是否开启swagger (true/false)
+  kaptcha-open: false         #是否开启登录时验证码 (true/false)
+  file-upload-path: d://upload//images     #文件上传目录(不配置的话为java.io.tmpdir目录)
+  key-path : d://upload//appkey  #应用key保存路径
+  spring-session-open: true      #是否开启spring session,如果是多机环境需要开启(true/false)
+  session-invalidate-time: 1800     #session失效时间(只在单机环境下生效，多机环境在SpringSessionConfig类中配置) 单位：秒
+  session-validation-interval: 900  #多久检测一次失效的session(只在单机环境下生效) 单位：秒
+  del-token-date: 365 #删除用户token的时间(单位：天)
+  app-key: 620881e3b530163bfc8fa7d2
+  master-secret: 2ac08226501d82e9ba240c75
+
+  ###################################首页内容接口配置############################################
+
+  jixiao-daiban-url: http://220.173.141.2:7001/sdiso/rest/waitingWork/toDo #绩效代办接口
+
+  gis-daiban-url: http://172.16.201.18:8082/WebService.asmx/getDataList #gis代办接口
+
+  gis-one-url: http://220.173.143.194:9019/NewApp/Test/Edit?configId=TD_WFSJ2&dbo.TD_WFSJ.WFBM=  #gis每条连接拼装头
+
+  gis-more-url: http://220.173.143.194:9019/NewApp/Test/Index?configId=TD_WFSJ2  #gis更多url
+
+
+  oa-one-url: http://oa.getda.gov.cn:9006/seeyon/collaboration/collaboration.do?method=summary&openFrom=listPending&affairId= #ia单条url
+
+  oa-url: http://172.16.201.14:8888 #oa域名
+
+  oa-news-one-url : http://oa.getda.gov.cn:9006/seeyon/newsData.do?method=newsView&newsId= #oa每一条新闻拼装头
+
+  oa-news-more-url : http://oa.getda.gov.cn:9006/seeyon/newsData.do?method=newsIndex&_resourceCode=F05_newsIndexAccount #oa 更多新闻连接
+
+  oa-mobile-one-url: http://microcental.oicp.net:40010/seeyon/mobileOAwxt.do?method=getUserPending&loginName=
+
+  ###############################################################################################
+
+beetl:
+  resource-auto-check: false      #热加载beetl模板，开发时候用
+
+spring:
+  redis:
+    database: 0
+    host: 172.16.201.12
+    port: 6379
+    password:
+    timeout: 5000
+    pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 8
+      min-idle: 0
+  profiles:
+    active: @spring.active@
+  mvc:
+    static-path-pattern: /static/**
+    view:
+      prefix: /WEB-INF/view
+  devtools:
+    restart:
+      enabled: false
+      additional-paths: src/main/java
+      exclude: static/**,WEB-INF/view/**
+  servlet:
+    multipart:
+      enabled: true
+      max-request-size: 100MB
+      max-file-size: 100MB
+
+mybatis-plus:
+  typeAliasesPackage: cn.future.modular.system.model
+
+log:
+  path: d://guns-logs
+
+---
+
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:mysql://172.16.201.13:4321/guns?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
+    username: root
+    password: pass!@#
+    filters: wall,mergeStat
+
+#多数据源情况的配置
+guns:
+  muti-datasource:
+    open: false
+    url: jdbc:mysql://127.0.0.1:3306/guns_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
+    username: root
+    password: root
+    dataSourceNames:
+    - dataSourceGuns
+    - dataSourceBiz
+
+---
+
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/guns?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
+    username: root
+    password: root
+    filters: wall,mergeStat
+
+---
+
+spring:
+  profiles: test
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/guns?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
+    username: root
+    password: root
+    filters: wall,mergeStat
+
+---
+
+spring:
+  profiles: produce
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/guns?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
+    username: root
+    password: root
+    filters: wall,mergeStat
+

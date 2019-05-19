@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.future.modular.system.dao.DeptMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.future.modular.system.model.Dept">
+        <id column="id" property="id"/>
+        <result column="num" property="num"/>
+        <result column="pid" property="pid"/>
+        <result column="pids" property="pids"/>
+        <result column="simplename" property="simplename"/>
+        <result column="fullname" property="fullname"/>
+        <result column="tips" property="tips"/>
+        <result column="version" property="version"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <select id="tree" resultType="cn.future.core.common.node.ZTreeNode">
+		select id,pid as pId,simplename as name,status,
+		(
+		CASE
+		WHEN (pId = 0 OR pId IS NULL) THEN
+		'true'
+		ELSE
+		'false'
+		END
+		) as isOpen from sys_dept where status = 1
+	</select>
+
+    <select id="list" resultType="map">
+        select * from sys_dept where status = 1
+        <if test="condition != null and condition != ''">
+            and simplename like CONCAT('%',#{condition},'%') or fullname like CONCAT('%',#{condition},'%')
+        </if>
+        order by num ASC
+    </select>
+
+    <select id="findList" resultType="cn.future.modular.system.model.Dept">
+        select * from sys_dept where status = 1 order by num ASC
+    </select>
+
+</mapper>

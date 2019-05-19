@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.1.RELEASE</version>
+    </parent>
+
+    <groupId>com.future</groupId>
+    <artifactId>sso</artifactId>
+    <version>1.0.0</version>
+
+
+
+    <packaging>war</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <shiro.version>1.4.0</shiro.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
+        <ehcache.version>3.3.1</ehcache.version>
+        <beetl.version>2.9.3</beetl.version>
+        <swagger.version>2.9.2</swagger.version>
+        <ehcache.core.version>2.6.11</ehcache.core.version>
+        <mysql-connector-java.version>8.0.11</mysql-connector-java.version>
+        <jwt.version>0.9.0</jwt.version>
+    </properties>
+
+    <dependencies>
+
+
+        <!--代码生成器-->
+        <dependency>
+            <groupId>cn.stylefeng.guns</groupId>
+            <artifactId>guns-generator</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!--核心组件-->
+        <dependency>
+            <groupId>cn.stylefeng.roses</groupId>
+            <artifactId>kernel-core</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector-java.version}</version>
+        </dependency>
+
+        <!--spring boot依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!--shiro依赖和缓存-->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${shiro.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>${shiro.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>
+
+        <!--验证码-->
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>${kaptcha.version}</version>
+        </dependency>
+
+        <!--beetl模板引擎-->
+        <dependency>
+            <groupId>com.ibeetl</groupId>
+            <artifactId>beetl</artifactId>
+            <version>${beetl.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>json</groupId>
+            <artifactId>json</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/json-1.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>javabase</groupId>
+            <artifactId>javabase64</artifactId>
+            <version>1.3.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/javabase64-1.3.1.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>ueditor</groupId>
+            <artifactId>ueditor</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/ueditor-1.1.2.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>h2</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/h2.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.hk2</groupId>
+            <artifactId>hk2</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/hk2-api.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>hk2-locator</groupId>
+            <artifactId>hk2</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/hk2-locator.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.hk2</groupId>
+            <artifactId>hk2-utils</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/hk2-utils.jar</systemPath>
+        </dependency>
+
+
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>2.9.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.annotation-api</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/javax.annotation-api.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/javax.inject.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.ws.rs-api</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/javax.ws.rs-api.jar</systemPath>
+        </dependency>
+
+
+        <dependency>
+            <groupId>jersey-client</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/jersey-client.jar</systemPath>
+        </dependency>
+
+     <dependency>
+            <groupId>jersey-common</groupId>
+            <artifactId>jersey-common</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/jersey-common.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>jersey-container-servlet</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/jersey-container-servlet.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>jersey-container-servlet-core</groupId>
+            <artifactId>jersey-container-servlet-core</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/jersey-container-servlet-core.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>jersey-guava</groupId>
+            <artifactId>jersey-guava</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/jersey-guava.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>jersey-media-jaxb</groupId>
+            <artifactId>jersey-media-jaxb</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/jersey-media-jaxb.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>jersey-media-multipart</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/jersey-media-multipart.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>jersey-server</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/jersey-server.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>seeyon-ctp-core</groupId>
+            <artifactId>seeyon-ctp-core</artifactId>
+            <version>1.1.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/seeyon-ctp-core.jar</systemPath>
+        </dependency>
+
+
+
+        <!--swagger-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <!--jwt token-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jwt.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.0.9</version>
+        </dependency>
+
+        <!--UEditor依赖的jar包 -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+            <version>2.4</version>
+            <classifier>jdk15</classifier>
+        </dependency>
+
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.0.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+            <version>1.14</version>
+        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+        <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+
+        <!--需要分布式session的话需要放开注释-->
+        <dependency>
+        <groupId>org.springframework.session</groupId>
+        <artifactId>spring-session-data-redis</artifactId>
+        <version>2.0.3.RELEASE</version>
+        </dependency>
+
+        <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.session</groupId>-->
+            <!--<artifactId>spring-session</artifactId>-->
+            <!--<version>1.3.2.RELEASE</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>cn.jpush.api</groupId>
+            <artifactId>jpush-client</artifactId>
+            <version>3.3.2</version>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <defaultGoal>compile</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork><!-- 如果没有该项配置，肯呢个devtools不会起作用，即应用不会restart -->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <delimiters>
+                        <delimiter>@</delimiter>
+                    </delimiters>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.4.2</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/resources/lib</directory>
+                            <targetPath>WEB-INF/lib/</targetPath>
+                            <includes>
+                                <include>**/*.jar</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/webapp</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <spring.active>local</spring.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <spring.active>dev</spring.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <spring.active>test</spring.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>produce</id>
+            <properties>
+                <spring.active>produce</spring.active>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>

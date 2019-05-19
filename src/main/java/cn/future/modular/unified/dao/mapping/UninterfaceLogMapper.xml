@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.future.modular.unified.dao.UninterfaceLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.future.modular.unified.model.UninterfaceLog">
+        <id column="id" property="id" />
+        <result column="uninterfaceid" property="uninterfaceid" />
+        <result column="applicationid" property="applicationid" />
+        <result column="createtime" property="createtime" />
+        <result column="message" property="message" />
+        <result column="ip" property="ip" />
+        <result column="time" property="time" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, uninterfaceid, applicationid, createtime, succeed, message, ip, time
+    </sql>
+
+    <select id="getLoginLogs" resultType="map" parameterType="com.baomidou.mybatisplus.plugins.Page">
+        select * from unified_uninterface_log where 1 = 1
+        <if test="beginTime != null and beginTime !='' and endTime != null and endTime != ''">
+            and (createTime between CONCAT(#{beginTime},' 00:00:00') and CONCAT(#{endTime},' 23:59:59'))
+        </if>
+        <if test="uninterfaceid != null and uninterfaceid !=''">
+            and uninterfaceid like CONCAT('%',#{uninterfaceid},'%')
+        </if>
+        order by createtime DESC
+    </select>
+
+</mapper>

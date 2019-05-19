@@ -1,0 +1,202 @@
+/*by nevsin.cn for QQ:303598805*/
+@import url("mui.min.css");
+
+body {
+    background-color: #fff;
+}
+
+a:link, a:visited {
+    color: #333;
+}
+
+.mui-content {
+    background-color: transparent;
+}
+
+.mui-bar {
+    background-color: #009ae0;
+    box-shadow: none;
+}
+
+.mui-bar .mui-title {
+    color: #fff;
+}
+
+.pd {
+    padding: 10px;
+}
+
+.login-img {
+    height: 260px;
+    position: relative;
+    background: url(../images/login-bg.jpg) no-repeat center top;
+}
+
+.login-img .login-tit {
+    background: url(../images/login-tit.png) no-repeat center center;
+    background-size: 50%;
+    width: 280px;
+    height: 70px;
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    margin-left: -140px;
+}
+
+.login-box-tit {
+    font-size: 30px;
+    line-height: 40px;
+    margin-bottom: 15px;
+    padding-left: 15px;
+}
+
+.login-box {
+    padding: 20px;
+    box-shadow: 0 0 30px rgba(33, 180, 280, .2);
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.login-box .input {
+    border: none;
+    border-bottom: solid 1px #ddd;
+    border-radius: 0;
+}
+
+.login-box .input:focus {
+    border-bottom: solid 2px #009AE0;
+}
+
+.login-box .inputId {
+    background: url(../images/login-id.png) no-repeat center right;
+}
+
+.login-box .inputPw {
+    background: url(../images/login-pw.png) no-repeat center right;
+}
+
+.login-box .form-group {
+    margin-bottom: 15px;
+}
+
+.login-box .form-group label {
+    padding-left: 15px;
+    color: #777;
+}
+
+.login .w-6 {
+    width: 49%;
+}
+
+.m-slider {
+    height: 150px;
+    position: relative;
+    border-radius: 10px;
+    background: url(../images/main-slider.jpg) no-repeat center center;
+}
+
+.m-slider .welcome {
+    position: absolute;
+    left: 20px;
+    top: 30%;
+    color: #fff;
+    font-size: 30px;
+    line-height: 40px;
+}
+
+.m-msg {
+    line-height: 50px;
+    height: 50px;
+    padding-left: 30px;
+    border-bottom: solid 1px #eee;
+    background: url(../images/m-msg.png) no-repeat left center;
+}
+
+.m-msg .m-msg-more {
+    float: right;
+}
+
+.m-msg .m-msg-con {
+    float: left;
+    margin-right: 40px;
+}
+
+.i-nav {
+    text-align: center;
+    border-bottom: solid 1px #eee;
+    padding: 15px 0;
+    overflow: hidden;
+    zoom: 1;
+}
+
+.i-nav-li {
+    width: 25%;
+    display: block;
+    float: left;
+    margin-right: -1px;
+}
+
+.h4 {
+    font-weight: normal;
+}
+
+.i-nav-li a {
+    display: block;
+}
+
+.i-nav-li a.i-nav-icon {
+    max-width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    margin: 10px auto;
+}
+
+.i-nav-li a.i-nav-tit {
+    font-size: 12px;
+}
+
+.lb {
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #eee;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.lb.lb-default {
+    background-color: #e5f5fc;
+    color: #009ae0;
+}
+
+.lb.lb-danger {
+    background-color: #fddbd9;
+    color: #dd524d;
+}
+
+.lb.lb-green {
+    background-color: #d9fdee;
+    color: #0ac477;
+}
+
+.lb.lb-orange {
+    background-color: #faeed9;
+    color: #e69200;
+}
+
+.tips-txt {
+    position: relative;
+}
+
+.tips-num {
+    position: absolute;
+    top: 0;
+    left: 35px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    line-height: 16px;
+    background-color: #dd524d;
+    color: #fff;
+    display: block;
+}

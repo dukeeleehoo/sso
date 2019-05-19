@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>统一门户身份认证系统 - 登录</title>
+    <link rel="shortcut icon" href="${ctxPath}/static/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="${ctxPath}/static/css/layer.css" />
+    <link rel="stylesheet" type="text/css" href="${ctxPath}/static/mobile/css/wap.min.css"/>
+    <script src="${ctxPath}/static/js/common/Feng.js"></script>
+    <script src="${ctxPath}/static/js/common/ajax-object.js"></script>
+    <script src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="${ctxPath}/static/js/jquery.md5.js?v=2.1.4"></script>
+    <script src="${ctxPath}/static/js/mlayer.js"></script>
+    <style>
+        * {
+            font-family: '微软雅黑'
+        }
+
+        .login-img .login-tit {
+            background: none;
+            color: #004ca1;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .login-box-tit {
+            color: #3e4a59
+        }
+
+        .login-box {
+            box-shadow: 6px 13px 40px 4px rgba(33, 180, 255, 0.2);
+            margin-bottom: 40px;
+            border-radius: 7px;
+        }
+
+        .login-box .inputId {
+            background-size: 30px;
+        }
+
+        .login-box .inputPw {
+            background-size: 30px;
+        }
+
+        .login-box {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .login-box input::-webkit-input-placeholder {
+            color: #78808a;
+            font-size: 14px;
+        }
+
+        .mui-text-right a {
+            color: #6078ea;
+            font-size: 14px;
+        }
+
+        .login .w-6 input[type='button'] {
+            background: #004ca1;
+            border: none;
+            line-height: 26px;
+            float: right;
+            width: 80%;
+        }
+
+        .login .w-6 label {
+            line-height: 45px;
+            color: #bababa;
+            font-size: 14px;
+            padding-left: 30px;
+        }
+    </style>
+</head>
+
+<body class="login">
+<header class="mui-bar mui-bar-nav">
+    <h1 class="mui-title">统一门户身份认证系统</h1>
+</header>
+<div class="login-img">
+    <div class="login-tit">
+        <span>园区单点登录系统</span>
+    </div>
+</div>
+<div style="padding:5px 25px 50px 25px;">
+    <h5 style="color: red;" id="tips">${tips!}</h5>
+    <form role="form" action="${ctxPath}/login" method="post" id="subform">
+        <input type="hidden" value="${appid!}" name="appid" id="appid"/>
+        <div class="login-box">
+            <div class="login-box-tit">登 录</div>
+            <div class="form-group">
+                <!--<label for="">用户名/账号/手机号</label>-->
+                <input class="input inputId" type="text" placeholder="用户名/账号/手机号" id="username" name="username"/>
+            </div>
+            <div class="form-group">
+                <!--<label for="">密码</label>-->
+                <input class="input inputPw" type="password" placeholder="在这里输入您的密码" id="oldpassword"
+                       name="oldpassword"/>
+                <input type="hidden" name="password" id="password"/>
+            </div>
+            <div class="form-group mui-text-right">
+                <!--<label for=""><a href="#">忘记密码</a></label>-->
+            </div>
+
+        </div>
+        <div class="form-group mui-clearfix">
+            <div class="mui-pull-left w-6">
+                <!--<label for=""><input type="radio" /> 记住账号</label>-->
+            </div>
+            <div class="mui-pull-right w-6">
+                <input style=" padding:8px;" type="button" onclick="sub()" value="登录"
+                       class="mui-btn mui-btn-block mui-btn-prmariy"/>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<form action="" method="post" id="appform" style="display: none">
+    <input type="text" name="code" value="" id="data">
+</form>
+<script>
+    $(function () {
+        $("#username").focus(function(){
+            $("#tips").hide();
+        })
+        $("#oldpassword").focus(function(){
+            $("#tips").hide();
+        })
+    });
+
+    function sub() {
+        if(myTrim($("#username").val())==""){
+            tip("请输入用户名!")
+            return;
+        }
+
+        if(myTrim($("#oldpassword").val())==""){
+            tip("请输入密码!")
+            return;
+        }
+
+        //提交表单先对密码进行加密
+        var pass = $("#oldpassword").val();
+        //加密过的密码复制到password中
+        $("#password").val(hex_md5(pass));
+        if ($("#appid").val() != null && $("#appid").val() != '') {
+            var ajax = new $ax(Feng.ctxPath + "/applogin", function (data) {
+
+                $("#span").html("");
+                if (data.code == "10000") {
+                    $("#appform").attr("action", data.authurl);
+                    $("#data").val(data.data);
+                    $("#appform").submit();
+                    return;
+                } else {
+                    $("#span").html(data.msg);
+                    return;
+                }
+            }, function (data) {
+
+            });
+            ajax.set("username", $("#username").val());
+            ajax.set("password", $("#password").val());
+            ajax.set("kaptcha", $("#kaptchaa").val());
+            ajax.set("appid", $("#appid").val());
+            ajax.start();
+            return;
+        } else {
+            layer.open({
+                type: 2
+                ,content: '登录中...'
+            });
+            $("#subform").submit();
+        }
+
+    }
+
+    $(function () {
+        $("#username").val("");
+        $("#password").val("");
+        $("#oldpassword").val("");
+        $("#kaptcha1").val("");
+        $("#kaptcha").on('click', function () {
+            $("#kaptcha").attr('src', '${ctxPath}/kaptcha?' + Math.floor(Math.random() * 100)).fadeIn();
+        });
+    });
+
+    function tip(msg) {
+        layer.open({
+            content: msg
+            , skin: 'footer',
+            time:1
+        });
+    }
+
+    function myTrim(x) {
+        return x.replace(/^\s+|\s+$/gm,'');
+    }
+</script>
+</body>
+
+</html>

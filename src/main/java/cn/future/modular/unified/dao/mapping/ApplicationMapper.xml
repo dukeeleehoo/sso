@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.future.modular.unified.dao.ApplicationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.future.modular.unified.model.Application">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="flag" property="flag" />
+        <result column="url" property="url" />
+        <result column="loginurl" property="loginurl" />
+        <result column="cancelurl" property="cancelurl" />
+        <result column="createtime" property="createtime" />
+        <result column="delflag" property="delflag" />
+        <result column="appid" property="appid" />
+        <result column="creater" property="creater" />
+        <result column="token" property="token" />
+        <result column="privatekey" property="privatekey" />
+        <result column="publickey" property="publickey" />
+        <result column="authurl" property="authurl" />
+        <result column="logo" property="logo" />
+        <result column="ip" property="ip" />
+        <result column="sort" property="sort" />
+        <result column="noauthenlogo" property="noauthenlogo" />
+        <result column="type" property="type" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, flag, url, loginurl, cancelurl, createtime,type,delflag,appid,creater,publickey,token,authurl,ip,logo,sort,noauthenlogo,privatekey
+    </sql>
+
+    <select id="selectApplications" resultType="map">
+        select
+        <include refid="Base_Column_List" />
+        from unified_application
+        where delflag = '0' order by sort
+    </select>
+
+    <select id="auth" resultType="cn.future.modular.unified.model.Application">
+        select
+        <include refid="Base_Column_List" />
+        from unified_application
+        where delflag = '0' AND  appid = #{appid} AND token = #{token}
+    </select>
+
+    <select id="getByAppid" resultType="cn.future.modular.unified.model.Application">
+        select
+        <include refid="Base_Column_List" />
+        from unified_application
+        where delflag = '0' AND  appid = #{appid}
+    </select>
+
+</mapper>

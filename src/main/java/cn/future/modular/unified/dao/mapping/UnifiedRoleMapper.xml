@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.future.modular.unified.dao.UnifiedRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.future.modular.system.model.UnifiedRole">
+        <id column="id" property="id" />
+        <result column="deptid" property="deptid" />
+        <result column="num" property="num" />
+        <result column="name" property="name" />
+        <result column="appid" property="appid" />
+        <result column="tips" property="tips" />
+        <result column="version" property="version" />
+        <result column="uniquecode" property="uniquecode" />
+        <result column="pid" property="pid" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        deptid, id, num, name, appid, tips, version, pid,uniquecode
+    </sql>
+
+
+    <delete id="deleteRolesById">
+		delete from unified_relation where roleid = #{roleId}
+	</delete>
+
+    <select id="roleTreeList" resultType="cn.future.core.common.node.ZTreeNode">
+		select id "id",pId,uniquecode
+		"pId",name as "name",(case when (pId=0 or pId is null) then 'true'
+		else 'false' end) "open" from unified_role where appid = #{appid}
+	</select>
+
+</mapper>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>统一门户身份认证系统</title>
+    <link rel="stylesheet" type="text/css" href="${ctxPath}/static/css/login.min.css"/>
+    <script src="${ctxPath}/static/js/jquery.min.js"></script>
+    <script src="${ctxPath}/static/js/bootstrap.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/layer/layer.js"></script>
+    <script src="${ctxPath}/static/js/schedule.js"></script>
+    <script src="${ctxPath}/static/js/common/Feng.js"></script>
+    <script src="${ctxPath}/static/js/plugins/layer/layer.js"></script>
+    <script src="${ctxPath}/static/js/common/ajax-object.js"></script>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        #schedule-box {
+            width: auto;
+            margin: 0 auto;
+            padding: 15px 15px;
+            font-size: 13px;
+        }
+
+        .schedule-hd {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 15px;
+        }
+
+        .today {
+            flex: 1;
+            text-align: center;
+        }
+
+        .ul-box {
+            overflow: hidden;
+        }
+
+        .ul-box > li {
+            float: left;
+            width: 14.28%;
+            text-align: center;
+            padding: 5px 0;
+        }
+
+        .other-month {
+            color: #999999;
+        }
+
+        .current-month {
+            color: #333333;
+        }
+
+        .today-style {
+            border-radius: 50%;
+            background: #58d321;
+        }
+
+        .arrow {
+            cursor: pointer;
+        }
+
+        .dayStyle {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            cursor: pointer;
+        }
+
+        .current-month > .dayStyle:hover {
+            background: #00BDFF;
+            color: #ffffff;
+        }
+
+        .today-flag {
+            background: #00BDFF;
+            color: #fff;
+        }
+
+        .boxshaw {
+            box-shadow: 2px 2px 15px 2px #e3e3e3;
+        }
+
+        body {
+            background: url(${ctxPath}/static/images/mainBg.jpg) center no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .nav-header {
+            color: #004ca1;
+            background: none
+        }
+
+        .nav-header a {
+            color: #004ca1;
+        }
+
+        .panel .panel-heading .more a, .panel {
+            color: #fff
+        }
+
+        .i-item li .i-date {
+            color: #333;
+        }
+
+        .col-sm-9 .col-sm-6:nth-child(2) .panel:first-child .panel-heading {
+            background-color: #33a865;
+        }
+
+        .col-sm-9 .col-sm-6:nth-child(2) .panel:last-child .panel-heading {
+            background-color: #33a865;
+        }
+
+        .col-sm-9 .col-sm-6:nth-child(3) .panel:first-child .panel-heading {
+            background-color: #33a865;
+        }
+
+        .col-sm-9 .col-sm-6:nth-child(3) .panel:last-child .panel-heading {
+            background-color: #33a865;
+        }
+
+        .copyRight h1 {
+            color: #333;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 20px
+        }
+
+        .current-month > .dayStyle:hover {
+            background: #33a865 !important
+        }
+
+        .today-flag {
+            background: #33a865 !important
+        }
+        .col-sm-9 .col-sm-6 .panel-body{height:245px;overflow:hidden;}
+    </style>
+
+
+    <script>
+        function openlog(url, msg) {
+            var index = layer.open({
+                type: 2,
+                title: msg,
+                area: ['100%', '100%'], //宽高
+                fix: false, //不固定
+                content: url
+            });
+        };
+
+        function openlog1(url, msg) {
+            var index = layer.open({
+                type: 2,
+                title: msg,
+                area: ['100%', '100%'], //宽高
+                fix: false, //不固定
+                content: url,
+                scrollbar: false
+            });
+        };
+
+    </script>
+</head>
+<body>
+<nav class="navbar nav-header">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#"> </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><span class="t title">统一门户身份认证系统</span></li>
+                <!--<li><span class="t">欢迎登录***系统</span></li>-->
+                <!--<li><span class="t">登录时间：2018-02-12</span>-->
+                <!--<span class="t">登录次数：5000次</span>-->
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!--<li>-->
+                <!--<a href="#" class="login-mg"> <span>12</span> </a>-->
+                <!--</li>-->
+                <!--<li>-->
+                <!--<a href="#" class="nav-face">-->
+                <!--<img src="${ctxPath}/static/images/face.png" />-->
+                <!--</a>-->
+                <!--</li>-->
+                <input value="${account!}" type="hidden" id="account">
+                <li id="htdl">
+                    @for(name in roleNames){
+                    @if(name!="普通用户")
+                    <a href="/index">
+                        后台管理
+                    </a>
+                    @}
+
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">${account!}<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="javascript:void(0);" onclick="openlog('${ctxPath}/mgr/user_info','个人资料')">个人资料</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);"
+                               onclick="openlog1('${ctxPath}/mgr/user_chpwd','修改密码')">修改密码</a>
+
+                            <!-- <li><a class="J_menuItem" href="${ctxPath}/mgr/user_info">个人资料</a></li>
+                    <li><a class="J_menuItem" href="${ctxPath}/mgr/user_chpwd">修改密码</a></li>-->
+                        </li>
+                        <!--<li role="separator" class="divider"></li>-->
+                        <!--<li>-->
+                        <!--<a href="#">其它</a>-->
+                        <!--</li>-->
+                    </ul>
+                </li>
+                <li>
+                    <a href="${ctxPath}/logout" class="login-out"> </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-main clearfix">
+    <div class="col-sm-12" style="padding: 0;">
+
+        <div class="login-msg">
+            <div style="float: left;width: 12%"><a href="#">系统消息滚动消息: </a></div>
+            <div style="float: left;width: 62%">
+                <marquee direction="right"><font color="red">${msg}</font></marquee>
+            </div>
+        </div>
+
+        <div class="col-sm-9" style="padding: 0;">
+
+            <div class="col-sm-12">
+                <div class="panel">
+                    <div class="i-nav clearfix">
+                        @for(app in apps){
+                        <input type="hidden" id="${app.appid!}_appid" value="${app.appid!}"/>
+                        <input type="hidden" id="${app.appid!}_data" value="${app.data!}"/>
+                        <input type="hidden" id="${app.appid!}_authurl" value="${app.authurl!}"/>
+                        <div class="col-sm-3">
+                            @if(app.has =="true"){
+                            <a class="i-nav-icon" href='javascript:void(0)' onclick="sub('${app.appid}')"><#avatarimg
+                                id='logo' name='logo' avatarImg='${app.logo!}'/></a>
+                            <a class="i-nav-txt" href='javascript:void(0)'
+                               onclick="sub('${app.appid}')">${app.name!}</a>
+                            @}
+                            @if(app.has =="false"){
+                            <a class="i-nav-icon" href="javascript:void(0)" style="cursor: default"><#avatarimg
+                                id="noauthenlogo" name="灰色log" avatarImg="${app.noauthenlogo!}"/></a>
+                            <a class="i-nav-txt" href="javascript:void(0)" style="cursor: default">${app.name!}</a>
+                            @}
+                        </div>
+                        @}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="panel">
+                    <div class="panel-heading"><span class="more"><a href='javascript:void(0)' onclick="gissub('${oaappid}','${oanewsmore}')">更多</a></span>新闻公告</div>
+                    <div class="panel-body">
+                        <ul class="i-item" id="oanews">
+
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-heading"><span class="more"><a href="#">更多</a></span>目标进度</div>
+                    <div class="panel-body">
+                        <ul class="i-item">
+                            <li>
+                                <span class="i-date">12-09</span>
+                                <span class="i-sta"><span class="i-a">审核中</span></span>
+                                <span class="i-tit"><a href="#">His项目初步草图会议</a></span>
+                            </li>
+                            <li>
+                                <span class="i-date">12-09</span>
+                                <span class="i-sta"><span class="i-b">执行中</span></span>
+                                <span class="i-tit"><a href="#">His项目初步草图会议</a></span>
+                            </li>
+
+                            <li>
+                                <span class="i-date">12-09</span>
+                                <span class="i-sta"><span class="i-a">审核中</span></span>
+                                <span class="i-tit"><a href="#">His项目初步草图会议</a></span>
+                            </li>
+                            <li>
+                                <span class="i-date">12-09</span>
+                                <span class="i-sta"><span class="i-b">执行中</span></span>
+                                <span class="i-tit"><a href="#">His项目初步草图会议</a></span>
+                            </li>
+
+                            <li>
+                                <span class="i-date">12-09</span>
+                                <span class="i-sta"><span class="i-a">审核中</span></span>
+                                <span class="i-tit"><a href="#">His项目初步草图会议</a></span>
+                            </li>
+                            <li>
+                                <span class="i-date">12-09</span>
+                                <span class="i-sta"><span class="i-b">执行中</span></span>
+                                <span class="i-tit"><a href="#">His项目初步草图会议</a></span>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-6">
+                <div class="panel">
+                    <div class="panel-heading"><span class="more"><a href="#">更多</a></span>代办事项</div>
+                    <div class="panel-body">
+                        <ul class="i-item" id="oadaiban">
+
+
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-heading"><span class="more"><a href='javascript:void(0)' onclick="gissub('${gisappid}','${gismoreurl}')">更多</a></span>GIS代办事项</div>
+                    <div class="panel-body">
+                        <ul class="i-item" id="gis">
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="panel">
+                <div class="panel-body text-center">
+                    <iframe width="315" scrolling="no" height="80" frameborder="0" allowtransparency="true"
+                            src="//i.tianqi.com/index.php?c=code&id=12&icon=1&num=2&site=12"></iframe>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-body text-center">
+                    <div id='schedule-box' class="boxshaw">
+                        ``
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
+
+
+
+<script>
+
+    function sub(id) {
+        //创建url
+        var url = $("#" + id + "_authurl").val();
+        //创建要提交的参数
+        var code = $("#" + id + "_data").val();
+        //创建form
+        var form = $("<form target='_blank'></form>");
+        form.target = "_blank";
+        //设置属性
+        form.attr("action", url);
+        form.attr("method", "post");
+        //创建input，即参数
+        var codeType = $("<input type='text' name='code'/>");
+        codeType.attr("value", code);
+        //注入参数到表单
+        form.append(codeType);
+        form.appendTo("body");
+        form.hide();
+        //提交表单
+        form.submit();
+    }
+    function gissub(id,murl) {
+        //创建url
+        var url = $("#" + id + "_authurl").val();
+        //创建要提交的参数
+        var code = $("#" + id + "_data").val();
+        //创建form
+        var form = $("<form target='_blank'></form>");
+        form.target = "_blank";
+        //设置属性
+        form.attr("action", url);
+        form.attr("method", "post");
+        //创建input，即参数
+        var codeType = $("<input type='text' name='code'/>");
+        codeType.attr("value", code);
+        var redirctUrl = $("<input type='text' name='redirctUrl'/>");
+        redirctUrl.attr("value", murl);
+        //注入参数到表单
+        form.append(redirctUrl);
+        form.append(codeType);
+        form.appendTo("body");
+        form.hide();
+        //提交表单
+        form.submit();
+    }
+
+    $(function () {
+        var mySchedule = new Schedule({
+            el: '#schedule-box',
+            //date: '2018-9-20',
+            clickCb: function (y, m, d) {
+                document.querySelector('#h3Ele').innerHTML = '日期：' + y + '-' + m + '-' + d
+            },
+            nextMonthCb: function (y, m, d) {
+                document.querySelector('#h3Ele').innerHTML = '日期：' + y + '-' + m + '-' + d
+            },
+            nextYeayCb: function (y, m, d) {
+                document.querySelector('#h3Ele').innerHTML = '日期：' + y + '-' + m + '-' + d
+            },
+            prevMonthCb: function (y, m, d) {
+                document.querySelector('#h3Ele').innerHTML = '日期：' + y + '-' + m + '-' + d
+            },
+            prevYearCb: function (y, m, d) {
+                document.querySelector('#h3Ele').innerHTML = '日期：' + y + '-' + m + '-' + d
+            }
+        });
+
+        getGIs();
+        getOADaiBan();
+        getOANews();
+    });
+
+    function getGIs() {
+        //gis数据获取
+        var ajax = new $ax(Feng.ctxPath + "/getgisdata", function (data) {
+            if(data.code=='200'){
+                $.each(data.data,function (i, item){
+                    var appid = "'" + item.appid + "'";
+                    var url = "'" + item.url + "'";
+                    $("#gis").append(" <li><span class=\"i-date\" style=\"width: 25%\"><a href=\"javascript:void(0)\" onclick=\"gissub("+appid+","+url+")\">"+item.wFLX+"</a></span></span>"+
+                        "<span class=\"i-sta\"><span class=\"i-a\"><a href=\"javascript:void(0)\" onclick=\"gissub("+appid+","+url+")\">"+item.wFXZ+"</a></span></span>"+
+                        " <span class=\"i-tit\"><a href=\"javascript:void(0)\" onclick=\"gissub("+appid+","+url+")\">"+item.wFZT+"</a></span>"+
+                        "</li>");
+                });
+            }else{
+                Feng.error("gis数据获取失败接口超时!")
+            }
+        }, function (data) {
+
+        });
+        ajax.set(this.menuInfoData);
+        ajax.async=true;
+        ajax.start();
+    }
+
+
+
+
+    function getOADaiBan() {
+        //gis数据获取
+        var ajax = new $ax(Feng.ctxPath + "/getoadata", function (data) {
+            if(data.code=='200'){
+                $.each(data.data,function (i, item){
+                    var appid = "'" + item.appid + "'";
+                    var url = "'" + item.url + "'";
+                    $("#oadaiban").append(" <li>\n" +
+                        " <span class=\"i-date\" style=\"width: 33%\"><a href=\"javascript:void(0)\" onclick=\"gissub("+appid+","+url+")\">"+item.receiveDate+"</a></span>\n" +
+                        " \n" +
+                        " <span class=\"i-tit\"><a href=\"javascript:void(0)\" onclick=\"gissub("+appid+","+url+")\">"+item.subject+"</a></span>\n" +
+                        "</li>");
+                });
+            }else{
+                Feng.error(data.msg)
+            }
+        }, function (data) {
+
+        });
+        ajax.set(this.menuInfoData);
+        ajax.async=true;
+        ajax.start();
+    }
+
+
+    function getOANews() {
+        //gis数据获取
+        var ajax = new $ax(Feng.ctxPath + "/getoanews", function (data) {
+            if(data.code=='200'){
+                $.each(data.data,function (i, item){
+                    var appid = "'" + item.appid + "'";
+                    var url = "'" + item.url + "'";
+                    $("#oanews").append(" <li>\n" +
+                        " <span class=\"i-date\" style=\"width: 33%\"><a href=\"javascript:void(0)\" onclick=\"gissub("+appid+","+url+")\">"+item.createDateStr+"</a></span>\n" +
+                        " \n" +
+                        " <span class=\"i-tit\"><a href=\"javascript:void(0)\" onclick=\"gissub("+appid+","+url+")\">"+item.title+"</a></span>\n" +
+                        "</li>");
+                });
+            }else{
+                Feng.error(data.msg)
+            }
+        }, function (data) {
+
+        });
+        ajax.set(this.menuInfoData);
+        ajax.async=true;
+        ajax.start();
+    }
+
+</script>

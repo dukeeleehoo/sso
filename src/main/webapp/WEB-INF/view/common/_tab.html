@@ -1,0 +1,70 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="nav-close"><i class="fa fa-times-circle"></i>
+    </div>
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header" style="padding: 15px 25px;">
+                <div class="dropdown profile-element" style="text-align: center;">
+                    <span>
+                        <img alt="image" class="img-circle" src="${ctxPath}/static/img/662536441544254539.png"  width="80px" height="80px"/>
+                    </span>
+                        <span class="clear" style="text-align: left;">
+                            <span class="block m-t-xs" style="width: 50%;display: inline-block;color: white;cursor: pointer"><strong class="font-bold">${shiro.getUser().name}</strong>
+                                <span class="text-muted text-xs block" style="text-align: left;" onclick="cf();">${shiro.getUser().roleNames[0]}<b class="caret"></b></span>
+                            </span>
+                            <span style="padding-left: 15px;color: white;cursor: pointer" onclick="sy();" >门户首页</span>
+                        </span>
+                    <ul class="dropdown-menu m-t-xs" id="zl">
+                        <li><a class="J_menuItem" href="${ctxPath}/mgr/user_info">个人资料</a></li>
+                        <li><a class="J_menuItem" href="${ctxPath}/mgr/user_chpwd">修改密码</a></li>
+                        <li class="divider"></li>
+                        <li><a href="${ctxPath}/logout">安全退出</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="logo-element">SSO
+                </div>
+            </li>
+            
+            @for(title in titles){
+                @if(tool.isEmpty(title.children)){
+                    <li>
+                        <a class="J_menuItem" href="${ctxPath}${title.url}" name="tabMenuItem">
+                            <i class="fa ${title.icon}"></i>
+                            <span class="nav-label">${title.name}</span>
+                        </a>
+                    </li>
+                @}else{
+                    <li>
+                        <a href="#">
+                            <i class="fa ${title.icon}"></i>
+                            <span class="nav-label">${title.name}</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            @for(subTitle in title.children){
+                                @if(tool.isEmpty(subTitle.children)){
+                                    <li>
+                                        <a class="J_menuItem" href="${ctxPath}${subTitle.url}" name="tabMenuItem">${subTitle.name}</a>
+                                    </li>
+                                @}else{
+                                    <li>
+                                        <a href="#">${subTitle.name} <span class="fa arrow"></span></a>
+                                        <ul class="nav nav-third-level">
+                                            @for(thirdTitle in subTitle.children){
+                                            <li>
+                                                <a class="J_menuItem" href="${ctxPath}${thirdTitle.url}" name="tabMenuItem">${thirdTitle.name}</a>
+                                            </li>
+                                            @}
+                                        </ul>
+                                    </li>
+                                @}
+                            @}
+                        </ul>
+                    </li>
+                @}
+            @}
+
+        </ul>
+    </div>
+</nav>

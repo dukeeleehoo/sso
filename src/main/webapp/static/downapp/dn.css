@@ -1,0 +1,18 @@
+.body{ font-family: "微软雅黑"; color: #fff; background: url(../images/dn-bg.jpg) no-repeat center top;}
+.body .content{ width: 1000px; margin: auto; padding-top: 150px;}
+.body .mb-con{ width: 52%; float: left;}
+.body .mb-con img{max-width: 100%;}
+.body h1{ font-size: 56px; font-weight: normal; margin: 0; margin-top: 40px;}
+.body h2{font-size: 46px;font-weight: normal;margin: 0; margin-bottom: 15px;}
+.body .txt-con{ width: 47%; float: right;}
+.body .ewm{text-align: center;}
+.body .ewm ul{list-style: none; margin: 0; padding: 0;}
+.body .ewm ul li{width:210px; float: left;}
+.body .ewm ul li.right{float: right;}
+.body .ewm .imgbox{ margin-bottom: 40px;}
+.body .ewm .imgbox img{width: 210px; height: 210px;}
+.body .ewm .btnbox{width: 160px; height: 60px; margin: auto; background-position: center center; background-repeat: no-repeat;  }
+.body .ewm .btnbox .pd{ font-size: 18px; padding: 3px 0 0 60px;  text-align: left;}
+.body .ewm .btnbox .pd span{ font-size: 20px; display: block;}
+.body .ewm .btnbox.ios{ background: url(btn-ios.png);}
+.body .ewm .btnbox.ad{ background: url(btn-ad.png);}

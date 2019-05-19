@@ -1,0 +1,38 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                    <#input id="name" name="名称" underline="true"/>
+                    <#select id="type" name="类型" underline="true">
+                        <option value="1">普通</option>
+                        <option value="2">加密</option>
+                    </#select>
+                    <#input id="requestparameter" name="请求参数" underline="true"/>
+                    <#input id="briefing" name="简介" underline="true"/>
+                </div>
+
+                <div class="col-sm-6">
+                    <#input id="url" name="请求地址" underline="true"/>
+                    <#select id="status" name="状态" underline="true">
+                        <option value="1">启用</option>
+                        <option value="2">停用</option>
+                    </#select>
+                    <#input id="returnparameter" name="返回结果" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="UninterfaceInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="UninterfaceInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/unified/uninterface/uninterface_info.js"></script>
+@}

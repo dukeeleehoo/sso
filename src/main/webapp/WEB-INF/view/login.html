@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统一门户身份认证系统 - 登录</title>
+    <link rel="stylesheet" type="text/css" href="${ctxPath}/static/css/login.min.css"/>
+    <link rel="shortcut icon" href="${ctxPath}/static/favicon.ico">
+    <link href="${ctxPath}/static/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="${ctxPath}/static/css/style.css?v=4.1.0" rel="stylesheet">
+    <script src="${ctxPath}/static/js/common/Feng.js"></script>
+    <script src="${ctxPath}/static/js/common/ajax-object.js"></script>
+    <script>if (window.top !== window.self) {
+        window.top.location = window.location;
+    }</script>
+    <script src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="${ctxPath}/static/js/jquery.md5.js?v=2.1.4"></script>
+    <script src="${ctxPath}/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <style>
+        .login .loginPageTit {
+            color: #1b1816;
+            background: none;
+        }
+
+        .form-group {
+            background: #fff;
+        }
+
+        .btn-primary {
+            background: #004ca1 !important;
+            border: none !important;
+        }
+
+        .copyRight {
+            position: fixed;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+        }
+
+        .copyRight h1 {
+            color: #333;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .form-group a {
+            color: #888;
+            font-size: 12px;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="login">
+<div class="loginPageTit">
+    <img src="${ctxPath}/static/images/logoTxt.png" alt="">
+</div>
+<div class="loginBox">
+    <div class="loginBoxTit">
+        <img src="${ctxPath}/static/images/logoTxt2.png" alt="">
+    </div>
+
+    <div class="loginBoxBody">
+        <h5 style="color: red;" id="tips">${tips!}</h5>
+        <h4><span style="color: red" id="span"></span></h4>
+        <form class="m-t" role="form" action="${ctxPath}/login" method="post" id="subform">
+            <input type="hidden" value="${appid!}" name="appid" id="appid"/>
+            <input type="hidden" value="${redirctUrl!}" name="appid" id="redirctUrl"/>
+            <div class="form-group">
+                <input type="text" class="form-control loginId" placeholder="用户名" name="username" id="username"/>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control loginPw" placeholder="密码" name="oldpassword"
+                       id="oldpassword"/>
+                <input type="hidden" name="password" id="password"/>
+            </div>
+            @if(kaptcha.getKaptchaOnOff() == true){
+            <div class="form-group clearfix">
+                <div class="col-sm-8" style="padding: 0;">
+                    <input type="text" class="form-control" placeholder="验证码" name="kaptcha" id="kaptchaa"/>
+                </div>
+                <div class="col-sm-4">
+                    <img src="${ctxPath}/kaptcha" id="kaptcha"
+                         style="display: block; width: 100px; height: 30px; background-color: #eee;"/>
+                </div>
+            </div>
+            @}
+            <div class="form-group">
+                <input onfocus="window.buttonIsFocused=true;" onblur="window.buttonIsFocused=false;"
+                       class="btn btn-block btn-primary" type="button" onclick="sub()" id="loginbtn" value="登录"
+                       style="background: #039ae1;border: #039ae1"/>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" name="remember" id="remember" style="margin-top: 2px;">记住我 &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="${ctxPath}/downapp" target="_blank">移动APP下载</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<form action="" method="post" id="appform" style="display: none">
+    <input type="text" name="code" value="" id="data">
+</form>
+
+<script>
+
+    document.onkeydown = function (e) {
+        var theEvent = window.event || e;
+        var code = theEvent.keyCode || theEvent.which;
+        if (code == 13) {
+            if (!window.buttonIsFocused) sub();
+            return false;
+        }
+    }
+
+
+    function sub() {
+        //提交表单先对密码进行加密
+        var pass = $("#oldpassword").val();
+        //加密过的密码复制到password中
+        $("#password").val(hex_md5(pass));
+
+        if ($("#appid").val() != null && $("#appid").val() != '') {
+            var ajax = new $ax(Feng.ctxPath + "/applogin", function (data) {
+                console.log(data);
+                $("#span").html("");
+                if (data.code == "10000") {
+                    $("#appform").attr("action", data.authurl);
+                    $("#data").val(data.data);
+                    $("#appform").submit();
+                    return;
+                } else {
+                    $("#span").html(data.msg);
+                    return;
+                }
+            }, function (data) {
+
+            });
+            if ($('#checkbox-remember').prop("checked")) {
+                ajax.set("remember", "on");
+            }
+            ajax.set("username", $("#username").val());
+            ajax.set("password", $("#password").val());
+            ajax.set("kaptcha", $("#kaptchaa").val());
+            ajax.set("redirctUrl", $("#redirctUrl").val());
+            ajax.set("appid", $("#appid").val());
+            ajax.start();
+            return;
+        } else {
+            $("#subform").submit();
+        }
+    }
+
+    $(function () {
+        $("#username").val("");
+        $("#password").val("");
+        $("#oldpassword").val("");
+        $("#kaptcha1").val("");
+        $("#kaptcha").on('click', function () {
+            $("#kaptcha").attr('src', '${ctxPath}/kaptcha?' + Math.floor(Math.random() * 100)).fadeIn();
+        });
+    });
+</script>
+
+</body>
+
+</html>

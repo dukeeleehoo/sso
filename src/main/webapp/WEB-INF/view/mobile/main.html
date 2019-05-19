@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>统一门户身份认证系统</title>
+		<link rel="shortcut icon" href="${ctxPath}/static/favicon.ico">
+		<link rel="stylesheet" type="text/css" href="${ctxPath}/static/mobile/css/wap.min.css" />
+		<link rel="stylesheet" type="text/css" href="${ctxPath}/static/css/layer.css" />
+		<script src="${ctxPath}/static/mobile/js/jquery.min.js"></script>
+		<script src="${ctxPath}/static/mobile/js/mui.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="${ctxPath}/static/css/mobile.login.css" />
+		<script src="${ctxPath}/static/js/jquery.min.js"></script>
+		<script src="${ctxPath}/static/js/mlayer.js"></script>
+		<script src="${ctxPath}/static/js/common/Feng.js"></script>
+		<script src="${ctxPath}/static/js/schedule.js"></script>
+		<script src="${ctxPath}/static/js/common/ajax-object.js"></script>
+		<style>
+			.m-slider{border: 1px solid #c9f5fe;}
+			.m-slider .welcome{color: #1a71d6;font-size: 26px;}
+			.m-msg .m-msg-more{color: #009ae0;font-size: 14px;}
+			.m-msg-con a{color: #999;font-size: 14px;}
+			.i-nav-li a.i-nav-tit{font-size: 14px;}
+			.mui-active span.tips-txt{color: #009ae0!important;}
+			.mui-segmented-control.mui-segmented-control-inverted~.mui-slider-progress-bar{background-color: #009ae0}
+			.lb{background-color: #1a71d6!important;color: #fff!important; width: 65px;display: inline-block;text-align: center;line-height: 18px; font-size: 14px;border-radius: 3px;}
+			.mui-badge{border-radius: 2px;line-height: 18px; font-size: 14px;top: 74%!important;text-transform: uppercase}
+			.mui-table-view-cell:after{background-color: #e5e5e5;left: 0;}
+			.mui-table-view-cell a{padding: 11px 0!important;}
+			.h4{font-size: 14px;}
+			.mui-table-view-cell p{color: #666;}
+			.m-msg{background-size: 18px;}
+			.i-nav-li a img{width:100%;}
+		</style>
+	</head>
+
+	<body >
+
+	<input type="hidden" value="${token}" id="token">
+		 <header class="mui-bar mui-bar-nav">
+		     <!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>-->
+		     <h1 class="mui-title">首页</h1>
+			 <a href="javascript:void(0)" onclick="logout()"><img src='${ctxPath}/static/images/loginOut.png' style='width:30px;height:30px;position:absolute;right:10px;top:8px;'/></a>
+		 </header>
+		 <div class="mui-content">
+		 	<div class="pd">
+		 		 <div class="m-slider">
+			     	<div class="welcome">您好&nbsp;&nbsp;&nbsp;${account!}<br />欢迎使用园区单点登录系统</div>
+					 <input type="hidden" value="${account!}" id="account"/>
+			     </div>
+			     <div class="m-msg">
+			     	<!--<a class="m-msg-more" href="#">更多</a>-->
+			     	<div class="m-msg-con">
+			     		<a href="#">系统滚动消息</a>
+			     	</div>
+			     </div>
+			     <div class="i-nav">
+					 @for(app in apps){
+					 <input type="hidden" id="${app.appid!}_appid" value="${app.appid!}"/>
+					 <input type="hidden" id="${app.appid!}_data" value="${app.data!}"/>
+					 <input type="hidden" id="${app.appid!}_authurl" value="${app.authurl!}"/>
+					 <div class="i-nav-li">
+						 @if(app.has =="true"){
+
+						 <a class="i-nav-icon" href='javascript:void(0)' onclick="sub('${app.appid}')"><#avatarimg
+							 id='logo' name='logo' avatarImg='${app.logo!}'/></a>
+						 <a class="i-nav-txt" href='javascript:void(0)'
+							onclick="sub('${app.appid}')">${app.name!}</a>
+						 @}
+						 @if(app.has =="false"){
+						 <a class="i-nav-icon" href="javascript:void(0)" style="cursor: default"><#avatarimg
+							 id="noauthenlogo" name="灰色log" avatarImg="${app.noauthenlogo!}"/></a>
+						 <a class="i-nav-txt" href="javascript:void(0)" style="cursor: default">${app.name!}</a>
+						 @}
+					 </div>
+					 @}
+			     </div>
+			    
+			    <div class="mui-slider">
+			        <div class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+			            <a class="mui-control-item" href="#item1"><span class="tips-txt">待办
+							<!--<span class="tips-num">3</span>-->
+						</span></a>
+			            <a class="mui-control-item" href="#item2"><span class="tips-txt">通知</span></a>
+			        </div>
+			        <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-6"></div>
+			        <div class="mui-slider-group">
+			            <div id="item1" class="mui-slider-item mui-control-content mui-active">
+			                <ul class="mui-table-view" id="oanews">
+
+
+			                    </ul>
+			            </div>
+			            <div id="item2" class="mui-slider-item mui-control-content">
+			                <ul class="mui-table-view">
+			                        <li class="mui-table-view-cell">
+			                            <a >
+			                               <span class="mui-badge mui-badge-danger">new</span>
+			                               <h4 class="h4"><span class="lb lb-default">会议</span>222222222 HIS项目许去讨论及初步草图会议</h4>
+			                               <p>创建人：John Smith</p>
+			                               <p>创建时间：2018-09-19</p>
+			                            </a>
+			                        </li>
+
+			                    </ul>
+			            </div>
+			        </div>
+			    </div>
+			     
+		 	</div>
+		 	
+
+		 </div>
+
+	<script>
+
+
+		//安卓获取用户唯一key
+        window.androidMethod.setUser($("#account").val(),$("#token").val());
+
+        function sub(id) {
+            //创建url
+            var url = $("#" + id + "_authurl").val();
+            //创建要提交的参数
+            var code = $("#" + id + "_data").val();
+            //创建form
+            var form = $("<form ></form>");
+            //设置属性
+            form.attr("action", url);
+            form.attr("method", "post");
+            //创建input，即参数
+            var codeType = $("<input type='text' name='code'/>");
+            codeType.attr("value", code);
+            //注入参数到表单
+            form.append(codeType);
+            form.appendTo("body");
+            form.hide();
+            //提交表单
+            form.submit();
+        }
+
+
+
+        /**
+		 * 退出
+         */
+        function logout(){
+            //询问框
+            layer.open({
+                content: '确定退出?'
+                ,btn: ['确定', '取消']
+                ,yes: function(index){
+                    window.androidMethod.logout();
+                    location.href = "${ctxPath}/logout";
+                }
+            });
+		}
+
+		function getOANews(){
+            var ajax = new $ax(Feng.ctxPath + "/getMobileOaNews", function (data) {
+                if(data.code=='200'){
+                    $.each(data.data,function (i, item){
+                        var appid = "'" + item.appid + "'";
+                        var url = "'" + item.url + "'";
+						$("#oanews").append("<li class=\"mui-table-view-cell\">\n" +
+                            "\t\t\t                            <a href=\"javascript:void(0)\" onclick=\"urlsub("+appid+","+url+")\">" +
+                            "\t\t\t                               <span class=\"mui-badge mui-badge-danger\">new</span>\n" +
+                            "\t\t\t                               <h4 class=\"h4\"><span class=\"lb lb-default\">"+item.typeName+"</span>"+item.subject+"</h4>\n" +
+                            "\t\t\t                               <p>创建人："+item.createMember+"</p>\n" +
+                            "\t\t\t                               <p>创建时间："+item.createDate+"</p>\n" +
+                            "\t\t\t                            </a>\n" +
+                            "\t\t\t                        </li>");
+                    });
+                }else{
+                    Feng.error(data.msg)
+                }
+            }, function (data) {
+
+            });
+            ajax.set(this.menuInfoData);
+            ajax.async=true;
+            ajax.start();
+		}
+
+
+
+
+        function urlsub(id,murl) {
+            //创建url
+            var url = $("#" + id + "_authurl").val();
+            //创建要提交的参数
+            var code = $("#" + id + "_data").val();
+            //创建form
+            var form = $("<form ></form>");
+
+            //设置属性
+            form.attr("action", url);
+            form.attr("method", "post");
+            //创建input，即参数
+            var codeType = $("<input type='text' name='code'/>");
+            codeType.attr("value", code);
+            var redirctUrl = $("<input type='text' name='redirctUrl'/>");
+            redirctUrl.attr("value", murl);
+            //注入参数到表单
+            form.append(redirctUrl);
+            form.append(codeType);
+            form.appendTo("body");
+            form.hide();
+            //提交表单
+            form.submit();
+        }
+
+	</script>
+	<script>
+        $(function(){
+            getOANews();
+		});
+	</script>
+	</body>
+
+</html>
