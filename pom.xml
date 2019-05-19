@@ -34,7 +34,7 @@
     <dependencies>
 
 
-        <!--代码生成器-->
+       
         <dependency>
             <groupId>cn.stylefeng.guns</groupId>
             <artifactId>guns-generator</artifactId>
